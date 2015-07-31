@@ -1,6 +1,6 @@
 #### Machine Learning
 ---
- This is a coursera lecture from this [page](http://https://www.coursera.org/learn/machine-learning/home/). And the lecurer is professor **Andrew Ng** from **Standford**.
+ This is a coursera lecture from this [page](http://www.coursera.org/learn/machine-learning/). And the lecurer is professor **Andrew Ng** from **Standford**.
  
 #####  Contents
 * Lectures  
@@ -9,7 +9,7 @@
 
 * programming assignments
 
-* [notes](http://https://share.coursera.org/wiki/index.php/ML:Main#Week_1)
+* [notes](http://share.coursera.org/wiki/index.php/ML:Main#Week_1)
 
 ---
 ##### Week1
