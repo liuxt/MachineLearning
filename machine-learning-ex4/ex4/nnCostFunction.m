@@ -62,13 +62,86 @@ Theta2_grad = zeros(size(Theta2));
 %               and Theta2_grad from Part 2.
 %
 
+%=============================== Part1 ==================================
+if logical(0)
+% compute costfunction
+for i = 1:m
+% map y into a vector
+    vector_y = zeros(num_labels, 1);
+    vector_y(y(i)) = 1;
+
+% forward propagation
+    xi = X(i, :);
+    a1 = [1; xi(:)];
+    z2 = Theta1 * a1;
+    a2 = [1; sigmoid(z2)];
+    z3 = Theta2 * a2;
+    a3 = sigmoid(z3);
+
+%compute & accumulate costfunc J
+    temp_J = -1/m * sum(vector_y .* log(a3) + (1 - vector_y) .* ...
+        log(1 - a3));
+    J = J + temp_J;
+end
+
+% add regularization
+Theta1_temp = Theta1(:, 2:end);
+Theta2_temp = Theta2(:, 2:end);
+reg = lambda / (2*m) * (sum(sum(Theta1_temp .^ 2)) ...
+    + sum(sum(Theta2_temp .^ 2)));
+J = J + reg;
+end
+%
+%============================== Part2 ==================================
+% Part1 & Part2 can be written in one for loop! The learning process 
+% would be quicker
+
+% compute costfunction
+for t = 1:m
+% map y into a vector
+    vector_y = zeros(num_labels, 1);
+    vector_y(y(t)) = 1;
+
+% forward propagation
+    xt = X(t, :);
+    a1 = [1; xt(:)];
+    z2 = Theta1 * a1;
+    a2 = [1; sigmoid(z2)];
+    z3 = Theta2 * a2;
+    a3 = sigmoid(z3);
+% compute "error" of node j in layer l
+    delta3 = a3 - vector_y;
+% note that skip the bias unit
+    delta2 = Theta2(:, 2:end)' * delta3 .* sigmoidGradient(z2);
+% accumulate the gradients
+    Theta1_grad = Theta1_grad + delta2 * a1';
+    Theta2_grad = Theta2_grad + delta3 * a2';
+% compute & accumulate costfunc J
+    temp_J = -1/m * sum(vector_y .* log(a3) + (1 - vector_y) .* ...
+        log(1 - a3));
+    J = J + temp_J;
+end
+Theta1_grad = 1/m * Theta1_grad;
+Theta2_grad = 1/m * Theta2_grad;
 
 
+%============================== Part3 =================================
+% add regularization for J
+Theta1_temp = Theta1(:, 2:end);
+Theta2_temp = Theta2(:, 2:end);
+reg = lambda / (2*m) * (sum(sum(Theta1_temp .^ 2)) ...
+    + sum(sum(Theta2_temp .^ 2)));
+J = J + reg;
 
+% add regularization for gradients
+Theta1_reg = Theta1 * lambda / m;
+Theta1_reg(:, 1) = zeros(hidden_layer_size, 1);
+Theta1_grad = Theta1_grad + Theta1_reg;
 
-
-
-
+Theta2_reg = Theta2 * lambda / m;
+Theta2_reg(:, 1) = zeros(num_labels, 1);
+Theta2_grad = Theta2_grad + Theta2_reg;
+grad = [Theta1_grad(:); Theta2_grad(:)];
 
 
 
