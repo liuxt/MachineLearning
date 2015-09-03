@@ -36,13 +36,16 @@ for i=1:max_iters
     
     % Output progress
     fprintf('K-Means iteration %d/%d...\n', i, max_iters);
+    a = 111
     if exist('OCTAVE_VERSION')
         fflush(stdout);
     end
     
     % For each example in X, assign it to the closest centroid
+    a = 1111
     idx = findClosestCentroids(X, centroids);
     
+    a = 11111
     % Optionally, plot progress here
     if plot_progress
         plotProgresskMeans(X, centroids, previous_centroids, idx, K, i);
